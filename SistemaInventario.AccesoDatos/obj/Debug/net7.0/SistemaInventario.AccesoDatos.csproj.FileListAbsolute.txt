@@ -1,0 +1,5 @@
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net7.0\SistemaInventario.AccesoDatos.csproj.AssemblyReference.cache
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net7.0\SistemaInventario.AccesoDatos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net7.0\SistemaInventario.AccesoDatos.AssemblyInfoInputs.cache
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net7.0\SistemaInventario.AccesoDatos.AssemblyInfo.cs
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net7.0\SistemaInventario.AccesoDatos.csproj.CoreCompileInputs.cache
