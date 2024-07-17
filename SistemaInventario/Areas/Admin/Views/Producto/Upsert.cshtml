@@ -1,0 +1,211 @@
+﻿@model SistemaInventario.Modelos.ViewModels.ProductoVM
+@using SistemaInventario.Utilidades
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear Nuevo Producto";
+}
+<style type="text/css">
+    .layered.box {
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+    }
+</style>
+
+@*enctype="multipart/form-data" INDICA que aparte de texto se manejara otros tipo de archivos*@
+<form method="post" enctype="multipart/form-data" onsubmit="removeFormatting()">
+
+    @if (Model.Producto.Id != 0)
+    {
+        @*Actualizacion*@
+        titulo = "Editar Producto";
+        <input asp-for="Producto.Id" hidden />
+        <input asp-for="Producto.ImagenUrl" hidden />
+    }
+
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2 class="text-info">@titulo</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Numero de Serie</label>
+                            <input asp-for="Producto.NumeroSerie" class="form-control" />
+                            <span asp-validation-for="Producto.NumeroSerie" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Descripción</label>
+                            <input asp-for="Producto.Descripcion" class="form-control" />
+                            <span asp-validation-for="Producto.Descripcion" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Costo</label>
+                            <input asp-for="Producto.Costo" class="form-control" id="costoInput" oninput="formatCurrency(this)" />
+                            <span class="text-danger" id="costValidation" hidden>El costo es requerido</span>
+                            @*<span asp-validation-for="Producto.Costo" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Precio</label>
+                            <input asp-for="Producto.Precio" class="form-control" id="precio"/>
+                            <span asp-validation-for="Producto.Precio" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Imagen</label>
+                            <input type="file" accept="image/png, image/gif, image/jpeg" name="files" id="imagenId" class="form-control" />
+                            <span asp-validation-for="Producto.NumeroSerie" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Categoria</label>
+                            <select asp-for="Producto.CategoriaId" asp-items="@Model.CategoriaLista" class="form-select">
+                                <option disabled selected>-- Seleccione una categoria --</option>
+                            </select>
+                            <span asp-validation-for="Producto.CategoriaId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Marca</label>
+                            <select asp-for="Producto.MarcaId" asp-items="@Model.MarcaLista" class="form-select">
+                                <option disabled selected>-- Seleccione una marca --</option>
+                            </select>
+                            <span asp-validation-for="Producto.MarcaId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Producto Padre</label>
+                            <select asp-for="Producto.PadreId" asp-items="@Model.PadreLista" class="form-select">
+                                <option disabled selected>-- Producto Padre --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Estado</label>
+                            <select asp-for="Producto.Estado" class="form-select">
+                                <option value="true" selected>Activo</option>
+                                <option value="false">Inactivo</option>
+                                
+                            </select>
+                            <span asp-validation-for="Producto.Estado" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (Model.Producto.Id != 0)
+                        {
+                            <partial name="_BotonesActualizarYRegresar" model="Model.Producto.Id" />
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button type="submit" onclick="return ValidarImagen()" class="btn btn-primary form-control">Crear</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <a asp-action="Index" class="btn btn-success form-control">Regresar</a>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                @if (Model.Producto.Id != 0)
+                {
+                    <div class="layered box">
+                        <img src="@DS.ImagenRuta@Model.Producto.ImagenUrl" width="100%" style="border-radius:5px; border:1px solid #bbb " />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function formatCurrency(input) {
+            // Remove non-numeric characters from input value
+            let value = input.value.replace(/\D/g, '');
+
+            // Format the value with thousands separator
+            value = Number(value).toLocaleString('es-ES');
+
+            // Update the input value with formatted value
+            input.value = value;
+        }
+        //$(function () {
+        //    var $inputCosto = $("#costo");
+        //    $inputCosto.on("keyup", function (event) {
+
+
+        //        // When user select text in the document, also abort.
+        //        var selection = window.getSelection().toString();
+        //        if (selection !== '') {
+        //            return;
+        //        }
+
+        //        // When the arrow keys are pressed, abort.
+        //        if ($.inArray(event.keyCode, [38, 40, 37, 39]) !== -1) {
+        //            return;
+        //        }
+
+
+        //        var $this = $(this);
+
+        //        // Get the value.
+        //        var input = $this.val();
+
+        //        var input = input.replace(/[\D\s\._\-]+/g, "");
+        //        input = input ? parseInt(input, 10) : 0;
+
+        //        $this.val(function () {
+        //            return (input === 0) ? "" : Number(Intl.NumberFormat("de-DE").format(input));
+        //            //input.toLocaleString("es-CO", { style: "decimal", currency: "COP", maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: true });
+        //        });
+        //    });
+        //});
+
+        function ValidarImagen() {
+            if (document.getElementById("imagenId").value == "") {
+                swal("Error", "Seleccione una Imagen!", "error");
+                return false;
+            }
+            return true;
+        }
+
+        function removeFormatting() {
+            // Remove any formatting from the input value before submitting the form
+            let input = document.getElementById('costoInput');
+            let span = document.getElementById('costValidation');
+            if (input.value == "0") {
+                span.hidden = false;
+
+            }else{
+                span.hidden = true;
+                input.value = input.value.replace(/\./g, '');
+            }
+            
+        }
+    </script>
+}
+
