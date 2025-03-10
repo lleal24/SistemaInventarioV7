@@ -10,8 +10,9 @@ C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDato
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.AssemblyInfoInputs.cache
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.AssemblyInfo.cs
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.csproj.CoreCompileInputs.cache
-C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.csproj.CopyComplete
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.dll
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\refint\SistemaInventario.AccesoDatos.dll
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.pdb
 C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\ref\SistemaInventario.AccesoDatos.dll
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaInventario.AccesoDatos.sourcelink.json
+C:\Users\lorena.leal\source\repos\SistemaInventario\SistemaInventario.AccesoDatos\obj\Debug\net6.0\SistemaI.AC5EC1CF.Up2Date

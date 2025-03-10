@@ -121,7 +121,8 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState
+                        .AddModelError(string.Empty, "Usuario no esta registrado o la cuenta no ha sido confirmada.");
                     return Page();
                 }
             }

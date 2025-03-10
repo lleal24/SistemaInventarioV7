@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+@using SistemaInventario.Utilidades
 @{
     ViewData["Title"] = "Register";
 }
@@ -58,6 +59,18 @@
                     <label asp-for="Input.ConfirmPassword">ConfirmPassword</label>
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
+                @if(User.IsInRole(DS.Role_Admin))
+                {
+                    <lable asp-for="Input.Role">Rol</lable>
+                    <div class="form-floating mb-3">
+                        
+                        
+                        <select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.ListaRol">
+                            <option value="">--Seleccione el Rol</option>
+                        </select>
+                    </div>
+                }
+
                 <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
             </form>
         </div>

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using SistemaInventario.Modelos;
 using SistemaInventario.Utilidades;
 
@@ -109,12 +111,24 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
 
             public string Role { get; set; }
 
+            public IEnumerable<SelectListItem> ListaRol { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            Input = new InputModel()
+            {
+                ListaRol = _roleManager.Roles
+                .Where(r => r.Name != DS.Role_Client)
+                .Select(n => n.Name)
+                .Select(l => new SelectListItem 
+                {
+                    Text = l,
+                    Value = l
+                })
+            };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -162,7 +176,14 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(DS.Role_Inventario));
                     }
 
-                    await _userManager.AddToRoleAsync(user, DS.Role_Admin);
+                    if (user.Role is null) // El valor que recibe desde el page
+                    {
+                        await _userManager.AddToRoleAsync(user, DS.Role_Client);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -182,8 +203,16 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if(user.Role is null)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            // Administrador esta registrando un nuevo usaurio
+                            return RedirectToAction("Index", "Usuario", new { Area = "Admin" });
+                        }
                     }
                 }
                 foreach (var error in result.Errors)

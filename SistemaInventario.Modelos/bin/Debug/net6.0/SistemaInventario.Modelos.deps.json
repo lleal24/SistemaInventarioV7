@@ -1436,7 +1436,10 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.0"
         },
         "runtime": {
-          "SistemaInventario.Utilidades.dll": {}
+          "SistemaInventario.Utilidades.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
