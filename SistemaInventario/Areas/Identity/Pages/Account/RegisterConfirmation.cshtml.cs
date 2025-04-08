@@ -5,12 +5,12 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Castle.Core.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using SistemaInventario.Utilidades;
 
 namespace SistemaInventario.Areas.Identity.Pages.Account
 {
@@ -18,9 +18,9 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly EmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, EmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;

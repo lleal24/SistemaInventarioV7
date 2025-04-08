@@ -1,26 +1,35 @@
-﻿
+﻿using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
-using Castle.Core.Smtp;
-using System.Net.Mail;
 
 namespace SistemaInventario.Utilidades
 {
     public class EmailSender : IEmailSender
     {
-        public void Send(string from, string to, string subject, string messageText)
+        public string SendGridSecret { get; set; }
+        private string EmailFrom { get; set; }
+
+        public EmailSender(IConfiguration _config)
         {
-            throw new NotImplementedException();
+            SendGridSecret = _config.GetValue<string>("Sendgrid:SecretKey");
+            EmailFrom = _config.GetValue<string>("Sendgrid:EmailFrom");
         }
 
-        public void Send(MailMessage message)
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            throw new NotImplementedException();
-        }
+            var client = new SendGridClient(SendGridSecret);
+            var from = new EmailAddress(EmailFrom);
+            var to = new EmailAddress(email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
 
-        public void Send(IEnumerable<MailMessage> messages)
-        {
-            throw new NotImplementedException();
+            var response = await client.SendEmailAsync(msg);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Body.ReadAsStringAsync();
+                throw new Exception($"SendGrid Error: {response.StatusCode} - {body}");
+            }
         }
     }
-
 }

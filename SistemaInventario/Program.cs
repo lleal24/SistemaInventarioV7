@@ -1,4 +1,3 @@
-using Castle.Core.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SistemaInventario.AccesoDatos.Data;
@@ -18,6 +17,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
     .AddErrorDescriber<ErrorDescriber>()
     .AddDefaultTokenProviders() // Config Email Sender, es un servicio
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Redireccion a los paths cuando los usuarios no esten autorizados
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -53,8 +60,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
 
+app.UseAuthentication();;
 app.UseAuthorization();
 
 app.MapControllerRoute(
